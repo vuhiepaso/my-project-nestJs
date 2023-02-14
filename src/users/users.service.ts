@@ -12,5 +12,14 @@ export class UsersService {
   async findUsers(): Promise<Student[]> {
     return await this.userRepository.find();
   }
+  async findUserById(msv: number): Promise<Student> {
+    console.log(msv);
+    return await this.userRepository.findOne({
+      where: {
+        msv: msv,
+      },
+    });
+    // return await this.userRepository.findOneBy({ msv });
+  }
   createUsers(data) {}
 }
