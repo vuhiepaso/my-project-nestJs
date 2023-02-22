@@ -21,5 +21,7 @@ export class UsersService {
     });
     // return await this.userRepository.findOneBy({ msv });
   }
-  createUsers(data) {}
+  async createUsers(data): Promise<Student> {
+    return await this.userRepository.save(data);
+  }
 }
