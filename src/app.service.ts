@@ -1,13 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!sssssssssssssaaaaa';
-  }
-  getName(): object {
-    return {
-      name: 'hiep',
-    };
+  async hashPassword(password: string): Promise<string> {
+    const salt = await bcrypt.genSalt();
+    return bcrypt.hash(password, salt);
   }
 }
