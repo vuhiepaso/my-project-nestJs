@@ -1,4 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Account {
@@ -11,8 +16,11 @@ export class Account {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
+
+  @CreateDateColumn()
+  createDate: Date;
 
   @Column()
   isActive: boolean;
