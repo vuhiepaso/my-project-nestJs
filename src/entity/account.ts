@@ -22,6 +22,6 @@ export class Account {
   @CreateDateColumn()
   createDate: Date;
 
-  @Column()
+  @Column({ default: true })
   isActive: boolean;
 }

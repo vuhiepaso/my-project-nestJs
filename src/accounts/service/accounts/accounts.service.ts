@@ -8,6 +8,7 @@ export class AccountsService {
   constructor(
     @InjectRepository(Account) private accountRepository: Repository<Account>,
   ) {}
+
   async findAccounts(): Promise<Account[]> {
     const queryBuilder = this.accountRepository.createQueryBuilder('account');
     queryBuilder.select([
