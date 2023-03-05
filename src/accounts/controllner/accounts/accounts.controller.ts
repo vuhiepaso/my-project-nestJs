@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Response } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Response,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AccountsService } from 'src/accounts/service/accounts/accounts.service';
 import { Account } from 'src/entity/account';
 
@@ -24,6 +32,7 @@ export class AccountsController {
     }
   }
 
+  @UsePipes(new ValidationPipe({ transform: true }))
   @Post('add')
   async createAccounts(@Body() account: Account, @Response() res) {
     try {
