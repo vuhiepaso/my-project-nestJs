@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountsModule } from './accounts/accounts.module';
+import { LoginModule } from './login/login.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AccountsModule } from './accounts/accounts.module';
       synchronize: true, //WARNING Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
     }),
     AccountsModule,
+    LoginModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Account } from 'src/entity/account';
 import { Repository } from 'typeorm';
-import { hashWord } from 'src/common/service/hash.code';
+import { hashWord } from 'common/service/hash.code';
 @Injectable()
 export class AccountsService {
   constructor(
