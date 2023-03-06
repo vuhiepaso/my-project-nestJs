@@ -33,14 +33,20 @@ export class AccountsController {
   }
 
   @UsePipes(new ValidationPipe({ transform: true }))
-  @Post('add')
+  @Post('register')
   async createAccounts(@Body() account: Account, @Response() res) {
     try {
+      const email = await this.accountsService.finByEmail(account.email);
+      if (email.length) {
+        return res.status(400).json({
+          status: '400',
+          message: `${email[0].email} is email already exist !`,
+        });
+      }
       await this.accountsService.createAccounts(account);
       return res.status(200).json({
         status: 'success',
         message: 'Add accounts successfully!',
-        account,
       });
     } catch (error) {
       return res.status(400).json({

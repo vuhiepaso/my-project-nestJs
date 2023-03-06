@@ -20,6 +20,9 @@ export class AccountsService {
     return queryBuilder.getMany();
     // return await this.accountRepository.find();
   }
+  async finByEmail(email: string): Promise<Account[]> {
+    return await this.accountRepository.findBy({ email: email });
+  }
 
   async createAccounts(data: Account): Promise<Account> {
     data.password = await hashWord(data.password);
