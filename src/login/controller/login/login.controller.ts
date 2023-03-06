@@ -19,34 +19,38 @@ export class LoginController {
   ) {}
   @Post()
   async login(@Body() data: LoginDto, @Response() res: any) {
-    // try {
-    const account = await this.accountsService.finByEmail(data.email);
-    const isPassword = await validatePassword(
-      data.password,
-      account[0]?.password || 'null',
-    );
-    if (account.length <= 0 || isPassword === false) {
+    try {
+      const account = await this.accountsService.finByEmail(data.email);
+      const isPassword = await validatePassword(
+        data.password,
+        account[0]?.password || 'null',
+      );
+      if (account.length <= 0 || isPassword === false) {
+        return res.status(400).json({
+          status: '400',
+          message: `Email or password doesn't exist !`,
+        });
+      }
+      const payload = {
+        email: account[0].email,
+        id: account[0].id,
+        createDate: account[0].createDate,
+      };
+      const info = account[0];
+      delete info.password;
+      const token = this.jwtService.sign(payload);
+      return res.status(200).json({
+        status: '200',
+        message: `Login successfully`,
+        info,
+        token,
+      });
+    } catch (error) {
       return res.status(400).json({
-        status: '400',
-        message: `Email or password doesn't exist !`,
+        status: 'error',
+        message: 'Error getting users!',
+        error: error,
       });
     }
-    const payload = { username: account[0].email, sub: account[0].id };
-    const token = this.jwtService.sign(payload);
-    const info = account[0];
-    delete info.password;
-    return res.status(200).json({
-      status: '200',
-      message: `Login successfully`,
-      info,
-      token,
-    });
-    // } catch (error) {
-    //   return res.status(400).json({
-    //     status: 'error',
-    //     message: 'Error getting users!',
-    //     error: error,
-    //   });
-    // }
   }
 }
