@@ -21,10 +21,9 @@ export class LoginController {
   async login(@Body() data: LoginDto, @Response() res: any) {
     try {
       const account = await this.accountsService.finByEmail(data.email);
-      const isPassword = await validatePassword(
-        data.password,
-        account[0]?.password || 'null',
-      );
+      const isPassword = account[0].password
+        ? await validatePassword(data.password, account[0]?.password)
+        : false;
       if (account.length <= 0 || isPassword === false) {
         return res.status(400).json({
           status: '400',
@@ -38,7 +37,7 @@ export class LoginController {
       };
       const info = account[0];
       delete info.password;
-      const token = this.jwtService.sign(payload);
+      const token = this.jwtService.sign(payload, { expiresIn: '10h' });
       return res.status(200).json({
         status: '200',
         message: `Login successfully`,

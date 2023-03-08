@@ -4,6 +4,7 @@ import {
   Get,
   Post,
   Response,
+  Request,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -15,7 +16,11 @@ export class AccountsController {
   constructor(private accountsService: AccountsService) {}
 
   @Get()
-  async getAccounts(@Response() res): Promise<Account[]> {
+  async getAccounts(
+    @Response() res: any,
+    @Request() req: any,
+  ): Promise<Account[]> {
+    console.log(req.headers);
     try {
       const accounts = await this.accountsService.findAccounts();
       return res.status(200).json({
