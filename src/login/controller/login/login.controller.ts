@@ -41,8 +41,10 @@ export class LoginController {
       return res.status(200).json({
         status: '200',
         message: `Login successfully`,
-        info,
-        token,
+        data: {
+          info,
+          token,
+        },
       });
     } catch (error) {
       return res.status(400).json({
