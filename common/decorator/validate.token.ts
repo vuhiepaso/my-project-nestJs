@@ -12,7 +12,7 @@ export const AuthToken = createParamDecorator(
     try {
       const token = request.headers.authorization?.split(' ')[1];
       const payload = await jwtService.verify(token, {
-        secret: 'mysecret',
+        secret: process.env.KEY_SECRET,
       });
       const checkRole = roles.some((role) => role === payload.role);
       if (!checkRole) {
