@@ -8,7 +8,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AccountsService } from 'src/accounts/service/accounts/accounts.service';
-import { Account } from 'src/entity/account';
+import { Account } from 'entity/account';
 import { AuthToken } from 'common/decorator/validate.token';
 import { ADMIN } from 'common/role';
 
