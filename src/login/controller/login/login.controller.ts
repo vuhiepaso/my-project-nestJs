@@ -33,7 +33,7 @@ export class LoginController {
       const payload = {
         email: account[0].email,
         id: account[0].id,
-        createDate: account[0].createDate,
+        role: account[0].role,
       };
       const info = account[0];
       delete info.password;

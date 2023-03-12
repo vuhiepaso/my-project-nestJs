@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 import { IsEmail, IsNotEmpty, Matches } from 'class-validator';
+import { USER } from 'common/role';
 const REGEX_PASSWORD =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>ยง~\[\]\|\\?\/]).{8,}$/;
 
@@ -29,6 +30,9 @@ export class Account {
   @IsEmail({}, { message: 'Invalid email format' })
   @Column({ unique: true })
   email: string;
+
+  @Column({ default: USER })
+  role: string;
 
   @CreateDateColumn()
   createDate: Date;

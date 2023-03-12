@@ -4,13 +4,13 @@ import {
   Get,
   Post,
   Response,
-  Request,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { AccountsService } from 'src/accounts/service/accounts/accounts.service';
 import { Account } from 'src/entity/account';
 import { AuthToken } from 'common/decorator/validate.token';
+import { ADMIN } from 'common/role';
 
 @Controller('accounts')
 export class AccountsController {
@@ -19,8 +19,9 @@ export class AccountsController {
   @Get()
   async getAccounts(
     @Response() res: any,
-    @AuthToken() token: any,
+    @AuthToken([ADMIN]) token: any,
   ): Promise<Account[]> {
+    console.log(token);
     try {
       const accounts = await this.accountsService.findAccounts();
       return res.status(200).json({
