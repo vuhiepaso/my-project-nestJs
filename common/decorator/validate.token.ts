@@ -11,10 +11,13 @@ export const AuthToken = createParamDecorator(
     const request = ctx.switchToHttp().getRequest();
     try {
       const token = request.headers.authorization?.split(' ')[1];
-      const payload = await jwtService.verify(token, {
-        secret: process.env.KEY_SECRET,
-      });
-      const checkRole = roles.some((role) => role === payload.role);
+      let payload: any;
+      if (token) {
+        payload = await jwtService.verify(token, {
+          secret: process.env.KEY_SECRET,
+        });
+      }
+      const checkRole = roles.some((role) => role === payload?.role);
       if (!checkRole) {
         throw new UnauthorizedException('Unauthorized', {
           description: 'You don not have access !',
