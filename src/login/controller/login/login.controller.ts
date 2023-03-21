@@ -21,9 +21,13 @@ export class LoginController {
   async login(@Body() data: LoginDto, @Response() res: any) {
     try {
       const account = await this.accountsService.finByEmail(data.email);
-      const isPassword = account[0].password
-        ? await validatePassword(data.password, account[0]?.password)
-        : false;
+      let isPassword = false;
+      if (account.length) {
+        isPassword = await validatePassword(
+          data.password,
+          account[0]?.password,
+        );
+      }
       if (account.length <= 0 || isPassword === false) {
         return res.status(400).json({
           status: '400',

@@ -21,7 +21,7 @@ export class AccountsController {
     @Response() res: any,
     @AuthToken([ADMIN]) token: any,
   ): Promise<Account[]> {
-    console.log(token);
+    // console.log(token);
     try {
       const accounts = await this.accountsService.findAccounts();
       return res.status(200).json({
