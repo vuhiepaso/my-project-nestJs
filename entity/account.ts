@@ -3,6 +3,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { IsEmail, IsNotEmpty, Matches } from 'class-validator';
 import { USER } from 'common/role';
@@ -36,6 +37,9 @@ export class Account {
 
   @CreateDateColumn()
   createDate: Date;
+
+  @DeleteDateColumn()
+  deleteDate: Date;
 
   @Column({ default: true })
   isActive: boolean;
