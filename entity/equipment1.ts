@@ -17,11 +17,14 @@ export class Equipment1 {
   @IsNotEmpty({ message: 'id-user is required' })
   id_user: number;
 
-  @IsNotEmpty({ message: 'Name is required' })
+  @Column({ default: 'Equipment' })
   name: string;
 
   @Column({ default: false })
   isActive: boolean;
+
+  @Column({ default: false })
+  status: boolean;
 
   @CreateDateColumn()
   createDate: Date;
