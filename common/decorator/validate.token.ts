@@ -26,8 +26,12 @@ export const AuthToken = createParamDecorator(
       return payload;
     } catch (err) {
       console.error(err);
+      const errorException = {
+        status: 401,
+        ...err,
+      };
       const { response, status, options } = err;
-      throw new HttpException(response, status, options);
+      throw new HttpException(response || errorException, status, options);
     }
   },
 );

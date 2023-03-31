@@ -31,4 +31,22 @@ export class Equipment1 {
 
   @DeleteDateColumn()
   deleteDate: Date;
+
+  constructor(
+    id?: number,
+    id_user?: number,
+    name?: string,
+    isActive?: boolean,
+    status?: boolean,
+    createDate?: Date,
+    deleteDate?: Date,
+  ) {
+    this.id = id;
+    this.id_user = id_user;
+    this.name = name;
+    this.isActive = isActive;
+    this.status = status;
+    this.createDate = createDate;
+    this.deleteDate = deleteDate;
+  }
 }

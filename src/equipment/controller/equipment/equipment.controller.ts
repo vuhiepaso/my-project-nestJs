@@ -1,20 +1,36 @@
-import { Controller, Get, Post, Patch, Delete, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  Body,
+  Response,
+} from '@nestjs/common';
 
 import { AuthToken } from 'common/decorator/validate.token';
 import { ADMIN, USER } from 'common/role';
 import { Equipment1 } from 'entity/equipment1';
+import { EquipmentService } from 'src/equipment/service/equipment/equipment.service';
 @Controller('equipment')
 export class EquipmentController {
-  //   constructor() {}
+  constructor(private equipmentService: EquipmentService) {}
 
   //CREATE
   @Post()
   createEquipment(
     @AuthToken([ADMIN]) payload: any,
-    @Body() equipment1: Equipment1,
+    @Body() equipment: Equipment1,
+    @Response() res: any,
   ) {
-    console.log('equipment1', equipment1);
-    console.log('payload', payload);
+    const data = new Equipment1();
+    data.id_user = payload.id;
+    data.name = equipment.name;
+    this.equipmentService.createEquipment(data);
+    return res.status(200).json({
+      data,
+      payload,
+    });
   }
   //READING
   @Get('/list')
