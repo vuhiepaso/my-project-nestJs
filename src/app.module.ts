@@ -6,6 +6,7 @@ import { AccountsModule } from './accounts/accounts.module';
 import { LoginModule } from './login/login.module';
 import { ConfigModule } from '@nestjs/config';
 import { EquipmentModule } from './equipment/equipment.module';
+import { EventsModule } from './gateway/events.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { EquipmentModule } from './equipment/equipment.module';
     AccountsModule,
     LoginModule,
     EquipmentModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
