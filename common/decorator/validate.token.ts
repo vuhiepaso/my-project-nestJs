@@ -31,7 +31,11 @@ export const AuthToken = createParamDecorator(
         ...err,
       };
       const { response, status, options } = err;
-      throw new HttpException(response || errorException, status, options);
+      throw new HttpException(
+        response || errorException,
+        status || errorException.status,
+        options,
+      );
     }
   },
 );

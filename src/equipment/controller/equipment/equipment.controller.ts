@@ -49,7 +49,7 @@ export class EquipmentController {
     @Response() res: any,
   ) {
     try {
-      const data = await this.equipmentService.listEquipment(userInfo.id);
+      const data = await this.equipmentService.listAllEquipment();
       return res.status(200).json({
         status: 200,
         message: 'Request successfully',

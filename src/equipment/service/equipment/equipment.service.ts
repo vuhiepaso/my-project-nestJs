@@ -22,14 +22,21 @@ export class EquipmentService {
       id_user: Equal(userId),
     });
   }
+  async listAllEquipment() {
+    return await this.equipmentRepository.find();
+  }
+
+  async listAllEquipmentByTime() {
+    return await this.equipmentRepository
+      .createQueryBuilder('equipment1')
+      .orderBy('equipment1.deleteDate');
+  }
 
   // UPDATE EQUIPMENT
   async updateEquipment(equipment: Equipment1) {
     let foundEquipment = await this.findEquipment(equipment.id);
     foundEquipment = { ...foundEquipment, ...equipment };
-    console.log('abc', foundEquipment);
-    // return await this.equipmentRepository.save(foundEquipment);
-    return equipment;
+    return await this.equipmentRepository.save(foundEquipment);
   }
 
   // DELETE EQUIPMENT
