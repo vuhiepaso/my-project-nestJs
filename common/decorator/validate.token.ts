@@ -39,3 +39,15 @@ export const AuthToken = createParamDecorator(
     }
   },
 );
+export function ValidatorToke(token: any) {
+  const jwtService = new JwtService();
+  const formatToke = token?.split(' ')[1];
+  try {
+    jwtService.verify(formatToke, {
+      secret: process.env.KEY_SECRET,
+    });
+    return true;
+  } catch (error) {
+    return false;
+  }
+}

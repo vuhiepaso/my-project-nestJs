@@ -8,15 +8,29 @@ import {
   Response,
   Param,
   ParseIntPipe,
+  OnModuleInit,
 } from '@nestjs/common';
 
 import { AuthToken } from 'common/decorator/validate.token';
 import { ADMIN, USER } from 'common/role';
 import { Equipment1 } from 'entity/equipment1';
 import { EquipmentService } from 'src/equipment/service/equipment/equipment.service';
+import { io, Socket } from 'socket.io-client';
 @Controller('equipment')
-export class EquipmentController {
-  constructor(private equipmentService: EquipmentService) {}
+export class EquipmentController implements OnModuleInit {
+  public socketClient: Socket;
+  constructor(private equipmentService: EquipmentService) {
+    this.socketClient = io('http://localhost:8001', {
+      auth: {
+        secret: process.env.KEY_SECRET,
+      },
+    });
+  }
+  onModuleInit() {
+    this.socketClient.on('connect', () => {
+      // console.log('connect');
+    });
+  }
 
   //CREATE
   @Post()
@@ -30,6 +44,7 @@ export class EquipmentController {
     data.name = equipment.name;
     try {
       const dataReq = await this.equipmentService.createEquipment(data);
+      this.socketClient.emit('events', 'CREATE');
       return res.status(200).json({
         status: 200,
         message: 'Create successfully',
@@ -79,6 +94,7 @@ export class EquipmentController {
         data.isActive = equipment.isActive;
       }
       const dataRq = await this.equipmentService.updateEquipment(data);
+      this.socketClient.emit('events', 'UPDATE');
       return res.status(200).json({
         dataRq,
         status: 200,
@@ -100,6 +116,7 @@ export class EquipmentController {
   ) {
     try {
       await this.equipmentService.deleteEquipment(id);
+      this.socketClient.emit('events', 'DELETE');
       return res.status(200).json({
         status: 200,
         message: 'Request successfully',

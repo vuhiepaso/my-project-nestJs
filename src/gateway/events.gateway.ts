@@ -9,6 +9,7 @@ import {
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { EquipmentService } from 'src/equipment/service/equipment/equipment.service';
+import { ValidatorToke } from 'common/decorator/validate.token';
 @WebSocketGateway(8001, { cors: true })
 export class EventsGateway
   implements OnModuleInit, OnGatewayDisconnect, OnGatewayConnection
@@ -24,7 +25,11 @@ export class EventsGateway
   }
   //connection
   handleConnection(client: any) {
-    console.log(`Client Connection: ${client.id}`);
+    const { token, secret } = client.handshake.auth;
+    const isSaverConnect = secret == process.env.KEY_SECRET ? true : false;
+    if (!ValidatorToke(token) && !isSaverConnect) {
+      client.disconnect();
+    } else console.log(`Client Connection: ${client.id}`);
   }
 
   handleDisconnect(client: any) {
