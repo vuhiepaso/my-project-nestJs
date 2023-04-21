@@ -17,10 +17,10 @@ import { EventsModule } from './gateway/events.module';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
-      port: 3306,
+      port: +process.env.DB_PORT,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
-      database: process.env.DATABASE,
+      database: process.env.DB_DATABASE,
       autoLoadEntities: true,
       synchronize: true, //WARNING Setting synchronize: true shouldn't be used in production - otherwise you can lose production data.
     }),
