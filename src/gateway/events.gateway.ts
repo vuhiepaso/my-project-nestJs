@@ -29,7 +29,7 @@ export class EventsGateway
     const isSaverConnect = secret == process.env.KEY_SECRET ? true : false;
     if (!ValidatorToke(token) && !isSaverConnect) {
       client.disconnect();
-    } else console.log(`Client Connection: ${client.id}`);
+    } else console.log(`Client Connection: ${client.id}`, secret);
   }
 
   handleDisconnect(client: any) {
