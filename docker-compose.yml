@@ -1,18 +1,19 @@
-version: 2.5.0
+# version: 2.5.0
 services:
     app:
       image: node:16-alpine
       command: sh -c "npm install && npm run start"
       ports:
         - 8000:8000
+        - 8001:8001
       working_dir: /app
       volumes:
         - ./:/app
       environment:
-        MYSQL_HOST: mysql
-        MYSQL_USER: root
-        MYSQL_PASSWORD: secret
-        MYSQL_DB: todos
+        MYSQL_HOST: ${DB_HOST}
+        MYSQL_USER: ${DB_USERNAME}
+        MYSQL_PASSWORD: ${DB_PASSWORD}
+        MYSQL_DB: ${DB_DATABASE}
       networks:
         my-network:
 
@@ -28,12 +29,12 @@ services:
     mysql:
       image: mysql:8.0.32
       ports:
-        - 3306:3306
+        - 3307:3306
       volumes:
         - todo-mysql-data:/var/lib/mysql
       environment:
-        MYSQL_ROOT_PASSWORD: secret
-        MYSQL_DATABASE: todos
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+        MYSQL_DATABASE: ${DB_DATABASE}
       networks:
         my-network:
 volumes:
