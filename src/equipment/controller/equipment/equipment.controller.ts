@@ -20,7 +20,7 @@ import { io, Socket } from 'socket.io-client';
 export class EquipmentController implements OnModuleInit {
   public socketClient: Socket;
   constructor(private equipmentService: EquipmentService) {
-    this.socketClient = io('http://localhost:8001', {
+    this.socketClient = io(process.env.HOST_SOCKET || 'http://localhost:8001', {
       auth: {
         secret: process.env.KEY_SECRET,
       },

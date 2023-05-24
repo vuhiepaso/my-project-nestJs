@@ -7,6 +7,7 @@ import { LoginModule } from './login/login.module';
 import { ConfigModule } from '@nestjs/config';
 import { EquipmentModule } from './equipment/equipment.module';
 import { EventsModule } from './gateway/events.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { EventsModule } from './gateway/events.module';
     LoginModule,
     EquipmentModule,
     EventsModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
