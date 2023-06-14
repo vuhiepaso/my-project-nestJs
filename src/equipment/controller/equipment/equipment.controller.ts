@@ -60,7 +60,7 @@ export class EquipmentController implements OnModuleInit {
   //READING
   @Get('/list')
   async listEquipment(
-    @AuthToken([ADMIN, USER]) userInfo: any,
+    // @AuthToken([ADMIN, USER]) userInfo: any,
     @Response() res: any,
   ) {
     try {
@@ -77,6 +77,29 @@ export class EquipmentController implements OnModuleInit {
       });
     }
   }
+  // fill
+  @Get('/:id')
+  async findEquipment(
+    @Param('id', ParseIntPipe) id: number,
+    @Response() res: any,
+  ) {
+    try {
+      const data = await this.equipmentService.findEquipment(id);
+      return res.status(200).json({
+        status: 200,
+        message: 'Request successfully',
+        eStatus: data.status,
+        data,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        error,
+        message: 'Request fail',
+      });
+    }
+  }
+
   //UPDATE
   @Patch('/update/:id')
   async updateEquipment(
