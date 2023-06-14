@@ -31,11 +31,27 @@ export class ProductService {
     return response;
   }
 
-  async findProduct() {
-    return this.productRepository
+  async findProduct(page: number, limit: number) {
+    const totalRecords = await this.productRepository.count();
+    const totalPages = Math.ceil(totalRecords / limit);
+
+    const products = await this.productRepository
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.photos', 'photos')
+      .skip((page - 1) * limit) // Bỏ qua các bản ghi ban đầu
+      .take(limit) // Giới hạn số lượng bản ghi trả về
       .getMany();
+
+    return { totalPages, products };
+  }
+
+  async findProductDetail(id: number) {
+    const product = await this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.photos', 'photos')
+      .where('product.product_id = :id', { id })
+      .getOne();
+    return product;
   }
 }
 

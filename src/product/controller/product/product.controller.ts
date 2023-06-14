@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query, Response } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Response,
+} from '@nestjs/common';
 import { AuthToken } from 'common/decorator/validate.token';
 import { ADMIN } from 'common/role';
 // import { IFProduct } from 'entity/product/product';
@@ -11,19 +19,27 @@ import {
 @Controller('product')
 export class ProductController {
   constructor(private productService: ProductService) {}
+
   @Get()
   async listProduct(
     @Response() res: ExpressResponse,
     @Query('page') page: number,
+    @Query('limit') limit: number,
   ) {
-    const value = await this.productService.findProduct();
+    const { totalPages, products } = await this.productService.findProduct(
+      page || 1,
+      limit || 12,
+    );
     return res.status(200).json({
       status: 200,
       message: 'Request successfully',
-      page: page,
-      value,
+      page,
+      limit,
+      totalPages,
+      value: products,
     });
   }
+
   @Post()
   async addProduct(
     @Response() res: ExpressResponse,
@@ -35,6 +51,19 @@ export class ProductController {
       status: 200,
       message: 'Request successfully',
       product: value,
+    });
+  }
+
+  @Get('detail/:id')
+  async productDetail(
+    @Response() res: ExpressResponse,
+    @Param('id') id: number,
+  ) {
+    const product = await this.productService.findProductDetail(id);
+    return res.status(200).json({
+      status: 200,
+      message: 'Request successfully',
+      product,
     });
   }
 }

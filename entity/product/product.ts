@@ -44,7 +44,7 @@ export class Product {
   @Column()
   describe: string;
 
-  @Column()
+  @Column({ length: 500 })
   overview: string;
 
   @Column({ default: true })
